@@ -71,17 +71,14 @@ namespace rle
             char * x = num;
             while (1)
             {
-                char y = *x;
-                if (y != '\0')
+                if (*x != '\0')
                 {
-                    unsigned char c = static_cast<unsigned char>(y);
-                    output.push_back(c);
+                    output.push_back(static_cast<unsigned char>(*x));
                     x++;
                     continue;
                 } else 
                 {
-                    unsigned char c = '\0';
-                    output.push_back(c);
+                    output.push_back('\0');
                     break;
                 }
             }
@@ -130,6 +127,7 @@ namespace dc
         {
             output.push_back(*it);
         }
+        
     }
 
     void deCompress(vector<unsigned char> &input, vector<unsigned char> &output)
