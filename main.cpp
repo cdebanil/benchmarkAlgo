@@ -1,4 +1,4 @@
-#include <climits>
+#include <cstring>
 #include <fstream>
 #include <iterator>
 #include <algorithm>
@@ -258,12 +258,31 @@ namespace dc
     }
 }
 
-int main()
+int main( int argc, char *argv[] )
 {
-    //int argProcess = COMPRESS;
-    //int argAlgorithm = RUNLENGTHENCODING;
-    int argProcess = DECOMPRESS;
-    int argAlgorithm = DICTIONARYCODING;
+    int argProcess = COMPRESS;
+    int argAlgorithm = RUNLENGTHENCODING;
+    //int argProcess = DECOMPRESS;
+    //int argAlgorithm = DICTIONARYCODING;
+
+    if (strcmp( argv[1], "dc" ) == 0)
+    {
+        argAlgorithm = DICTIONARYCODING;
+    }
+    if (strcmp( argv[1], "rle" ) == 0)
+    {
+        argAlgorithm = DICTIONARYCODING;
+    }
+    if (strcmp( argv[2], "compress" ) == 0)
+    {
+        argProcess = COMPRESS;
+    }
+    if (strcmp( argv[2], "decompress" ) == 0)
+    {
+        argProcess = DECOMPRESS;
+    }
+    argv[3];
+    int numOfTestFiles = strtol(argv[3], NULL, 10);
 
     string extension = "_copy";
     string inputFileName = "./testfiles/TEST";
@@ -278,8 +297,7 @@ int main()
         extension = dc::ex;
     }
 
-    int numOfTestFiles = 1;
-    for (int i = 1; i <= numOfTestFiles; i++)
+    for (int i = 0; i <= numOfTestFiles; i++)
     {
         if (argProcess == COMPRESS)
         {
