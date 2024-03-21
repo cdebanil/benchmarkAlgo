@@ -22,7 +22,7 @@ To run program on test files, run
 python tests.py
 ```
 
-If we run above code on the current test cases we get output -
+If we run above code on the provided test cases we get output -
 
 ```
 --------------------------------------DICTIONARY CODING---------------------------------------
