@@ -40,6 +40,8 @@ Test Case  7 | 0b38d6313f9d7476104029ca0d5f7194 |   Y   | 0b38d6313f9d7476104029
 Test Case  8 | 65b969b696827a66a70421177b96a6d7 |   Y   | 65b969b696827a66a70421177b96a6d7
 Test Case  9 | 931d6a2c61ac6272a975bb8b40d3b020 |   Y   | 931d6a2c61ac6272a975bb8b40d3b020
 Test Case 10 | 0687801f223a0d18e7701d9bf5ecdfb7 |   Y   | 0687801f223a0d18e7701d9bf5ecdfb7
+
+
 --------------------------------------RUN LENGTH CODING---------------------------------------
 -------MD5 Checksum before running and after running program to compress and decompress-------
 ----------------------------------------------------------------------------------------------
