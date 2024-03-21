@@ -57,12 +57,13 @@ def checkAlgoAccuracy(algo, lstOfTestCases):
         fileProcessed.close()
 
 
-# for x in range(1, numberOfTestCases + 1):
-#     for algo in ["dc", "rle"]:
-#         for procedure in ["compress", "decompress"]:
-#             runAlgo(algo, procedure, x)
+for x in range(1, numberOfTestCases + 1):
+    for algo in ["dc", "rle"]:
+        for procedure in ["compress", "decompress"]:
+            runAlgo(algo, procedure, x)
 
-# for algo in ["dc", "rle"]:
-#     checkAlgoAccuracy(algo, range(numberOfTestCases))
+for algo in ["dc", "rle"]:
+    checkAlgoAccuracy(algo, range(numberOfTestCases))
 
+print("\n\n")
 printFileSizes()
