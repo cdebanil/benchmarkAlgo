@@ -29,7 +29,7 @@ def checkAlgoAccuracy(algo, lstOfTestCases):
         print("--------------------------------------DICTIONARY CODING---------------------------------------")
     if algo == "rle":
         ex = "_rle"
-        print("--------------------------------------RUN LENGTH CODING---------------------------------------")
+        print("\n\n--------------------------------------RUN LENGTH CODING---------------------------------------")
     print("-------MD5 Checksum before running and after running program to compress and decompress-------")
     print("----------------------------------------------------------------------------------------------")
     print("  Test Case  |" + "              Before              |" + " Match " + "|               After             ")
