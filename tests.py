@@ -5,6 +5,17 @@ import os
 
 numberOfTestCases = 10
 
+def printFileSizes():
+    print("|  | Original File Size | After Run Length Compression | Compression Ratio (Run Length) | After LZW Compression | Compression Ratio (LZW) |")
+    print("| --- | --- | --- | --- | --- | --- |")
+    for x in range(1, numberOfTestCases + 1):
+        original_size = os.path.getsize('./testfiles/TEST' + str(x))
+        compressed_dc_size = os.path.getsize('./testfiles/TEST' + str(x) + "_dc")
+        compressed_rle_size = os.path.getsize('./testfiles/TEST' + str(x) + "_rle")
+        ratio_rle = round(float(original_size) / float(compressed_rle_size), 4)
+        ratio_dc = round(float(original_size) / float(compressed_dc_size), 4)
+        print("| TEST" + str(x) + " | " + str(original_size) + " | " + str(compressed_rle_size) + "  | " + str(ratio_rle) + "  | " + str(compressed_dc_size) + "  | " + str(ratio_dc) + "  |")
+
 def runAlgo(algo, procedure, numTest):
     if algo == "dc" or algo == "rle":
         if procedure == "compress" or procedure == "decompress":
@@ -12,28 +23,13 @@ def runAlgo(algo, procedure, numTest):
             os.system("gprof ./main gmon.out > ./testfiles/analysis" + "_" + str(numTest) + "_" + algo + "_" + procedure)
 
 
-def genTestFiles():
-    for x in range(numberOfTestCases):
-        sizeinbytes = random.randint(1024 * 1024 * 8, 1024 * 1024 * 16) # All test files are between 8MB and 16MB
-        file = open("./testfiles/TEST" + str(x+1), "w")
-        while sizeinbytes > 0 :
-            ch = random.choice(string.printable)
-            max = 20
-            if ch in string.whitespace:
-                max = 2
-            for k in range(random.randint(1, max)):
-                file.write(ch)
-                sizeinbytes = sizeinbytes - 1
-        file.close()
-
-
 def checkAlgoAccuracy(algo, lstOfTestCases): 
     if algo == "dc":
         ex = "_dc"
-        print("--------------------------------------DICTIONARY CODING--------------------------------------")
+        print("--------------------------------------DICTIONARY CODING---------------------------------------")
     if algo == "rle":
         ex = "_rle"
-        print("--------------------------------------RUN LENGTH CODING--------------------------------------")
+        print("--------------------------------------RUN LENGTH CODING---------------------------------------")
     print("-------MD5 Checksum before running and after running program to compress and decompress-------")
     print("----------------------------------------------------------------------------------------------")
     print("  Test Case  |" + "              Before              |" + " Match " + "|               After             ")
@@ -60,16 +56,13 @@ def checkAlgoAccuracy(algo, lstOfTestCases):
         fileOriginal.close()
         fileProcessed.close()
 
-#genTestFiles()
 
+# for x in range(1, numberOfTestCases + 1):
+#     for algo in ["dc", "rle"]:
+#         for procedure in ["compress", "decompress"]:
+#             runAlgo(algo, procedure, x)
 
-for x in range(numberOfTestCases):
-    for algo in ["dc", "rle"]:
-        for procedure in ["compress", "decompress"]:
-            runAlgo(algo, procedure, x)
+# for algo in ["dc", "rle"]:
+#     checkAlgoAccuracy(algo, range(numberOfTestCases))
 
-for algo in ["dc", "rle"]:
-    checkAlgoAccuracy(algo, range(numberOfTestCases))
-
-
-
+printFileSizes()

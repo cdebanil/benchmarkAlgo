@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
     }
     if (strcmp(argv[1], "rle") == 0)
     {
-        argAlgorithm = DICTIONARYCODING;
+        argAlgorithm = RUNLENGTHENCODING;
     }
     if (strcmp(argv[2], "compress") == 0)
     {
