@@ -6,15 +6,13 @@ import os
 numberOfTestCases = 10
 
 def printFileSizes():
-    print("|  | Original File Size | After Run Length Compression | Compression Ratio (Run Length) | After LZW Compression | Compression Ratio (LZW) |")
-    print("| --- | --- | --- | --- | --- | --- |")
     for x in range(1, numberOfTestCases + 1):
         original_size = os.path.getsize('./testfiles/TEST' + str(x))
         compressed_dc_size = os.path.getsize('./testfiles/TEST' + str(x) + "_dc")
         compressed_rle_size = os.path.getsize('./testfiles/TEST' + str(x) + "_rle")
         ratio_rle = round(float(original_size) / float(compressed_rle_size), 4)
         ratio_dc = round(float(original_size) / float(compressed_dc_size), 4)
-        print("| TEST" + str(x) + " | " + str(original_size) + " | " + str(compressed_rle_size) + "  | " + str(ratio_rle) + "  | " + str(compressed_dc_size) + "  | " + str(ratio_dc) + "  |")
+        print("\n\n Test File - TEST" + str(x) + "-\nOriginal File Size (Bytes) = " + str(original_size) + "\nAfter Run Length Compression Size (Bytes) = " + str(compressed_rle_size) + "\nCompression Ratio (Run Length) = " + str(ratio_rle) + "\nAfter LZW Compression Size (Bytes) = " + str(compressed_dc_size) + "\nCompression Ratio (LZW) = " + str(ratio_dc))
 
 def runAlgo(algo, procedure, numTest):
     if algo == "dc" or algo == "rle":
