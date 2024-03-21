@@ -5,10 +5,11 @@ import os
 
 numberOfTestCases = 10
 
-def runAlgo(algo, procedure, numTests):
+def runAlgo(algo, procedure, numTest):
     if algo == "dc" or algo == "rle":
         if procedure == "compress" or procedure == "decompress":
-            os.system("./main " + algo + " " + procedure + " " + str(numTests))
+            os.system("./main " + algo + " " + procedure + " " + str(numTest))
+            os.system("gprof ./main gmon.out > ./testfiles/analysis" + "_" + str(numTest) + "_" + algo + "_" + procedure)
 
 
 def genTestFiles():
@@ -25,18 +26,19 @@ def genTestFiles():
                 sizeinbytes = sizeinbytes - 1
         file.close()
 
-#genTestFiles()
 
-def checkAlgoAccuracy(algo): 
+def checkAlgoAccuracy(algo, lstOfTestCases): 
     if algo == "dc":
         ex = "_dc"
+        print("--------------------------------------DICTIONARY CODING--------------------------------------")
     if algo == "rle":
         ex = "_rle"
-    print("MD5 Checksum before running and after running program to compress and decompress")
+        print("--------------------------------------RUN LENGTH CODING--------------------------------------")
+    print("-------MD5 Checksum before running and after running program to compress and decompress-------")
     print("----------------------------------------------------------------------------------------------")
     print("  Test Case  |" + "              Before              |" + " Match " + "|               After             ")
     print("----------------------------------------------------------------------------------------------")
-    for x in range(numberOfTestCases):
+    for x in lstOfTestCases:
         fileOriginal = open("./testfiles/TEST" + str(x+1), mode="rb")
         fileProcessed = open("./testfiles/TEST" + str(x+1) + ex + "_decompressed", mode="rb")
         dataOriginal = fileOriginal.read()
@@ -61,7 +63,13 @@ def checkAlgoAccuracy(algo):
 #genTestFiles()
 
 
+for x in range(numberOfTestCases):
+    for algo in ["dc", "rle"]:
+        for procedure in ["compress", "decompress"]:
+            runAlgo(algo, procedure, x)
 
-checkAlgoAccuracy("rle")
-checkAlgoAccuracy("dc")
+for algo in ["dc", "rle"]:
+    checkAlgoAccuracy(algo, range(numberOfTestCases))
+
+
 

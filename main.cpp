@@ -123,7 +123,8 @@ namespace dc
 
     typedef std::basic_string<unsigned char> ustring;
 
-    vector<unsigned long long int> getInputIntegers(vector<unsigned char> &input){
+    vector<unsigned long long int> getInputIntegers(vector<unsigned char> &input)
+    {
         vector<unsigned long long int> result;
         vector<unsigned char>::iterator it = input.begin();
         while (it != input.end())
@@ -141,74 +142,83 @@ namespace dc
         return result;
     }
 
-    void printIntegersToOutput(vector<unsigned char> &output, vector<unsigned long long int> intList){
-            for (unsigned long long int i = 0; i < intList.size(); i++)
+    void printIntegersToOutput(vector<unsigned char> &output, vector<unsigned long long int> intList)
+    {
+        for (unsigned long long int i = 0; i < intList.size(); i++)
+        {
+            char *num = to_string(intList.at(i)).data();
+            char *x = num;
+            while (1)
             {
-                char *num = to_string(intList.at(i)).data();
-                char *x = num;
-                while (1)
+                if (*x != '\0')
                 {
-                    if (*x != '\0')
-                    {
-                        output.push_back(static_cast<unsigned char>(*x));
-                        x++;
-                        continue;
-                    }
-                    else
-                    {
-                        output.push_back('\0');
-                        break;
-                    }
+                    output.push_back(static_cast<unsigned char>(*x));
+                    x++;
+                    continue;
+                }
+                else
+                {
+                    output.push_back('\0');
+                    break;
                 }
             }
+        }
     }
 
-    map<ustring,unsigned long long int> constructCompressTable(vector<unsigned char> dict){
-        map<ustring,unsigned long long int> table;
+    map<ustring, unsigned long long int> constructCompressTable(vector<unsigned char> dict)
+    {
+        map<ustring, unsigned long long int> table;
         for (unsigned long long i = 0; i < dict.size(); i++)
         {
             ustring str;
             str.push_back(dict.at(i));
-            table.insert(pair<ustring, unsigned long long int> (str, i));
+            table.insert(pair<ustring, unsigned long long int>(str, i));
         }
         return table;
     }
 
-    map<unsigned long long int, ustring> constructDecompressTable(vector<unsigned char> dict){
+    map<unsigned long long int, ustring> constructDecompressTable(vector<unsigned char> dict)
+    {
         map<unsigned long long int, ustring> table;
         for (unsigned long long i = 0; i < dict.size(); i++)
         {
             ustring str;
             str.push_back(dict.at(i));
-            table.insert(pair<unsigned long long int, ustring> (i, str));
+            table.insert(pair<unsigned long long int, ustring>(i, str));
         }
         return table;
     }
 
     void compress(vector<unsigned char> &input, vector<unsigned char> &output, vector<unsigned char> table)
     {
-        map<ustring,unsigned long long int> dict = constructCompressTable(table);
+        map<ustring, unsigned long long int> dict = constructCompressTable(table);
         ustring inputString;
         for (unsigned long long int i = 0; i < input.size(); i++)
         {
             inputString.push_back(input.at(i));
         }
-        
+
         vector<unsigned long long int> outputINTS;
 
         // Input String =  inputString, Output Array = outputINTS, map = dict
         ustring p, c;
         p += inputString[0];
-        for (int i = 0; i < inputString.length(); i++) {
-            if (i != inputString.length() - 1) { c += inputString[i + 1]; }
+        for (int i = 0; i < inputString.length(); i++)
+        {
+            if (i != inputString.length() - 1)
+            {
+                c += inputString[i + 1];
+            }
             ustring m = p;
             m.append(c);
-            if (dict.find(m) != dict.end()) {
+            if (dict.find(m) != dict.end())
+            {
                 p = m;
             }
-            else {
+            else
+            {
                 outputINTS.push_back(dict[p]);
-                dict.insert(pair<ustring, unsigned long long int> (m, dict.size()));
+                dict.insert(pair<ustring, unsigned long long int>(m, dict.size()));
                 p = c;
             }
             c.clear();
@@ -232,13 +242,16 @@ namespace dc
         ustring c;
         c.push_back(s[0]);
         outputString.append(s);
-        for (int i = 0; i < inputINTS.size() - 1; i++) {
+        for (int i = 0; i < inputINTS.size() - 1; i++)
+        {
             n = inputINTS[i + 1];
-            if (dict.find(n) == dict.end()) {
+            if (dict.find(n) == dict.end())
+            {
                 s = dict[old];
                 s.append(c);
             }
-            else {
+            else
+            {
                 s = dict[n];
             }
             outputString.append(s);
@@ -246,7 +259,7 @@ namespace dc
             c.push_back(s[0]);
             ustring str = dict[old];
             str.append(c);
-            dict.insert(pair<unsigned long long int, ustring> (dict.size(), str));
+            dict.insert(pair<unsigned long long int, ustring>(dict.size(), str));
             old = n;
         }
 
@@ -258,31 +271,30 @@ namespace dc
     }
 }
 
-int main( int argc, char *argv[] )
+int main(int argc, char *argv[])
 {
     int argProcess = COMPRESS;
     int argAlgorithm = RUNLENGTHENCODING;
-    //int argProcess = DECOMPRESS;
-    //int argAlgorithm = DICTIONARYCODING;
+    // int argProcess = DECOMPRESS;
+    // int argAlgorithm = DICTIONARYCODING;
 
-    if (strcmp( argv[1], "dc" ) == 0)
+    if (strcmp(argv[1], "dc") == 0)
     {
         argAlgorithm = DICTIONARYCODING;
     }
-    if (strcmp( argv[1], "rle" ) == 0)
+    if (strcmp(argv[1], "rle") == 0)
     {
         argAlgorithm = DICTIONARYCODING;
     }
-    if (strcmp( argv[2], "compress" ) == 0)
+    if (strcmp(argv[2], "compress") == 0)
     {
         argProcess = COMPRESS;
     }
-    if (strcmp( argv[2], "decompress" ) == 0)
+    if (strcmp(argv[2], "decompress") == 0)
     {
         argProcess = DECOMPRESS;
     }
-    argv[3];
-    int numOfTestFiles = strtol(argv[3], NULL, 10);
+    int numOfTestFile = strtol(argv[3], NULL, 10);
 
     string extension = "_copy";
     string inputFileName = "./testfiles/TEST";
@@ -297,60 +309,57 @@ int main( int argc, char *argv[] )
         extension = dc::ex;
     }
 
-    for (int i = 0; i <= numOfTestFiles; i++)
+    if (argProcess == COMPRESS)
     {
-        if (argProcess == COMPRESS)
-        {
-            inputFileName = "./testfiles/TEST" + to_string(i);
-            outputFileName = inputFileName + extension;
-        }
-        if (argProcess == DECOMPRESS)
-        {
-            inputFileName = "./testfiles/TEST" + to_string(i) + extension;
-            outputFileName = inputFileName + "_decompressed";
-        }
-
-        ifstream input(inputFileName, ios::binary);
-        ofstream output(outputFileName, ios::binary);
-
-        vector<unsigned char> inputDataBuffer(istreambuf_iterator<char>(input), {});
-        vector<unsigned char> outputDataBuffer;
-
-        if (argProcess == COMPRESS)
-        {
-            if (argAlgorithm == RUNLENGTHENCODING)
-            {
-                rle::compress(inputDataBuffer, outputDataBuffer);
-            }
-            if (argAlgorithm == DICTIONARYCODING)
-            {
-                vector<unsigned char> dict = inputDataBuffer;
-                sort(dict.begin(), dict.end());
-                auto dictIT = unique(dict.begin(), dict.end());
-                dict.erase(dictIT, dict.end());
-                string outputDictName = "./testfiles/TEST" + to_string(i) + "DICT";
-                ofstream outputDict(outputDictName, ios::binary);
-                copy(dict.begin(), dict.end(), ostreambuf_iterator<char>(outputDict));
-
-                dc::compress(inputDataBuffer, outputDataBuffer, dict);
-            }
-        }
-        if (argProcess == DECOMPRESS)
-        {
-            if (argAlgorithm == RUNLENGTHENCODING)
-            {
-                rle::deCompress(inputDataBuffer, outputDataBuffer);
-            }
-            if (argAlgorithm == DICTIONARYCODING)
-            {
-                string inputDictName = "./testfiles/TEST" + to_string(i) + "DICT";
-                ifstream inputDict(inputDictName, ios::binary);
-                vector<unsigned char> dict(istreambuf_iterator<char>(inputDict), {});
-
-                dc::deCompress(inputDataBuffer, outputDataBuffer, dict);
-            }
-        }
-
-        copy(outputDataBuffer.begin(), outputDataBuffer.end(), ostreambuf_iterator<char>(output));
+        inputFileName = "./testfiles/TEST" + to_string(numOfTestFile);
+        outputFileName = inputFileName + extension;
     }
+    if (argProcess == DECOMPRESS)
+    {
+        inputFileName = "./testfiles/TEST" + to_string(numOfTestFile) + extension;
+        outputFileName = inputFileName + "_decompressed";
+    }
+
+    ifstream input(inputFileName, ios::binary);
+    ofstream output(outputFileName, ios::binary);
+
+    vector<unsigned char> inputDataBuffer(istreambuf_iterator<char>(input), {});
+    vector<unsigned char> outputDataBuffer;
+
+    if (argProcess == COMPRESS)
+    {
+        if (argAlgorithm == RUNLENGTHENCODING)
+        {
+            rle::compress(inputDataBuffer, outputDataBuffer);
+        }
+        if (argAlgorithm == DICTIONARYCODING)
+        {
+            vector<unsigned char> dict = inputDataBuffer;
+            sort(dict.begin(), dict.end());
+            auto dictIT = unique(dict.begin(), dict.end());
+            dict.erase(dictIT, dict.end());
+            string outputDictName = "./testfiles/TEST" + to_string(numOfTestFile) + "DICT";
+            ofstream outputDict(outputDictName, ios::binary);
+            copy(dict.begin(), dict.end(), ostreambuf_iterator<char>(outputDict));
+
+            dc::compress(inputDataBuffer, outputDataBuffer, dict);
+        }
+    }
+    if (argProcess == DECOMPRESS)
+    {
+        if (argAlgorithm == RUNLENGTHENCODING)
+        {
+            rle::deCompress(inputDataBuffer, outputDataBuffer);
+        }
+        if (argAlgorithm == DICTIONARYCODING)
+        {
+            string inputDictName = "./testfiles/TEST" + to_string(numOfTestFile) + "DICT";
+            ifstream inputDict(inputDictName, ios::binary);
+            vector<unsigned char> dict(istreambuf_iterator<char>(inputDict), {});
+
+            dc::deCompress(inputDataBuffer, outputDataBuffer, dict);
+        }
+    }
+
+    copy(outputDataBuffer.begin(), outputDataBuffer.end(), ostreambuf_iterator<char>(output));
 }
